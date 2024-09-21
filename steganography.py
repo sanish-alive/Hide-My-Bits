@@ -2,6 +2,9 @@ from PIL import Image
 from collections import defaultdict, Counter
 import heapq, json, time
 
+def test():
+    return "this is test."
+
 class Node:
     def __init__(self, char, freq):
         self.char = char
@@ -124,10 +127,13 @@ def encodeMessageToImage(image_path, message, secret):
             new_pixels.append(pixel)
 
     new_image = Image.new(image.mode, image.size)
+    # new_image.putdata(new_pixels)
+    # new_image_name = "new_"+str(time.time())+"_"+image_path
+    # new_image.save(new_image_name)
+    # print(f"Message encoded in "+new_image_name)
     new_image.putdata(new_pixels)
-    new_image_name = "new_"+str(time.time())+"_"+image_path
-    new_image.save(new_image_name)
-    return new_image_name
+    return new_image
+    
 
 def decodeImageToMessage(image_path, secret):
     image = Image.open(image_path)
@@ -172,8 +178,11 @@ if __name__ == '__main__':
         my_message = input("Enter Message: ")
         password = input("Enter Password: ")
 
-        new_image_name = encodeMessageToImage(image_name, my_message, password)
-        print(f"Message encoded in "+new_image_name)
+        encodeMessageToImage(image_name, my_message, password)
+        # print(encoded_image)
+        # new_image_name = "new_"+str(time.time())+"_"+image_name
+        # encoded_image.save(new_image_name)
+        # print(f"Message encoded in "+new_image_name)
     elif chocie == "2":
         image_name = input("Enter Image Name: ")
         password = input("Enter Password: ")
