@@ -1,17 +1,57 @@
-<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hide My Bits | Encode</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
-    <form action="/encode" method="post" enctype="multipart/form-data">
-        Image: <input type="file" name="image" accept="image/*"><br>
-        Message: <textarea name="message"></textarea><br>
-        Password: <input type="password" name="password"><br>
-        <input type="submit">
+    <form action="" method="post" enctype="multipart/form-data">
+
+        <h1><strong>Hide My Bits</strong> Encode</h1>
+
+        <div class="form-group file-area">
+            <label for="image">Images <span>Your images extension should be .jpg, .jpeg, .png, .gif</span></label>
+            <input type="file" name="image" id="image" required="required" accept="image/png, image/jpeg, image/jpg, image/gif">
+            <div class="file-dummy">
+                <div class="success">Great, your files are selected. Keep on.</div>
+                <div class="default">Please select image</div>
+            </div>
+        </div>
+
+        <div class="form-group file-area">
+            <label for="images">Text File <span>only .txt extension file</span></label>
+            <input type="file" name="text-file" id="text-file" required="required" accept=".txt">
+            <div class="file-dummy">
+                <div class="success">Great, your files are selected. Keep on.</div>
+                <div class="default">Please select text file</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password <span>Long the better</span></label>
+            <input type="text" name="password" id="password" class="form-controll">
+        </div>
+
+        <!-- <div class="form-group file-area"></div>
+            <label for="images">Text File <span>only .txt extension file</span></label>
+            <input type="file" name="text-file" id="text-file" required="required" multiple="multiple">
+            <div class="file-dummy">
+                <div class="success">Great, your files are selected. Keep on.</div>
+                <div class="default">Please select some files</div>
+            </div>
+        </div> -->
+
+        <div class="form-group">
+            <button type="submit">Encode</button>
+        </div>
+
     </form>
+
+
+    <a href="/decode" class="back-to-article">Decode</a>
+
 </body>
+
 </html>

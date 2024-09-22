@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, send_file
-from werkzeug.utils import secure_filename
-import io
-import os, time
+import io, os
 import steganography
 
 app = Flask(__name__)
@@ -23,16 +21,10 @@ def home():
 def encode():
     if request.method == 'POST':
         image = request.files['image']
-        message = request.form['message']
+        text_file = request.files['text-file']
         password = request.form['password']
 
-        # new_image_name = "new_"+str(time.time())+"_"+image.filename
-        # upload_image_path = os.path.join(app.config['UPLOAD_FOLDER'], new_image_name)
-        # image.save(upload_image_path)
-
-        # encoded_image = steganography.encodeMessageToImage(upload_image_path, message, password)
-        # image_path = os.path.join(app.config['ENCODED_IMAGE_FOLDER'], new_image_name)
-        # encoded_image.save(image_path)
+        message = text_file.read().decode('utf-8')
 
         filename, file_extension = os.path.splitext(image.filename)
         file_extension = file_extension.lower()
@@ -64,11 +56,15 @@ def decode():
         password = request.form['password']
 
         decoded_message = steganography.decodeImageToMessage(image, password)
+
+        text_file_io = io.BytesIO()
+        text_file_io.write(decoded_message.encode('utf-8'))
+        text_file_io.seek(0)
+
+        return send_file(text_file_io, as_attachment=True, download_name='decoded_text.txt', mimetype='text/plain')
         return decoded_message
     else:
         return render_template('decode.html')
-
-
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
