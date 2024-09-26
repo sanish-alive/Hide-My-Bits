@@ -66,7 +66,7 @@ def serializeHuffmanCode(huffman_code):
 
 def deserializeHuffmanCode(binary_data):
     huffman_string = binToString(binary_data)
-    return json.loads(huffman_string)\
+    return json.loads(huffman_string)
 
 def stringToBinary(data):
     return ''.join(format(byte, '08b') for byte in bytearray(data, 'utf-8'))
@@ -112,7 +112,13 @@ def encodeMessageToImage(image_path, message, secret):
 
     for pixel in pixels:
         if message_index < len(binary_message):
-            r, g, b = pixel
+            image_mode = image.mode
+            if image_mode == 'RGB':
+                r, g, b = pixel
+            elif image_mode == 'RGBA':
+                r, g, b, a = pixel
+            else:
+                raise ValueError(f"Image has a different mode: {image_mode}")
             if message_index < len(binary_message):
                 r = (r & ~1) | int(binary_message[message_index])
                 message_index += 1
@@ -142,7 +148,13 @@ def decodeImageToMessage(image_path, secret):
     binary_message = ""
 
     for pixel in pixels:
-        r, g, b = pixel
+        image_mode = image.mode
+        if image_mode == 'RGB':
+            r, g, b = pixel
+        elif image_mode == 'RGBA':
+            r, g, b, a = pixel
+        else:
+            raise ValueError(f"Image has a different mode: {image_mode}")
         binary_message += str(r & 1)
         binary_message += str(g & 1)
         binary_message += str(b & 1)

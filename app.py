@@ -26,23 +26,11 @@ def encode():
 
         message = text_file.read().decode('utf-8')
 
-        filename, file_extension = os.path.splitext(image.filename)
-        file_extension = file_extension.lower()
-
         encoded_image = steganography.encodeMessageToImage(image, message, password)
 
         img_io = io.BytesIO()
 
-        format_map = {
-            '.jpg': 'JPEG',
-            '.jpeg': 'JPEG',
-            '.png': 'PNG',
-            '.gif': 'GIF',
-            '.bmp': 'BMP',
-            '.tiff': 'TIFF'
-        }
-        img_format = format_map.get(file_extension)
-        encoded_image.save(img_io, format=img_format)
+        encoded_image.save(img_io, format='PNG')
         img_io.seek(0)      
 
         return send_file(img_io, as_attachment=True, download_name='encoded_'+image.filename)
