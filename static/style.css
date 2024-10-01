@@ -172,3 +172,21 @@ button {
         background: rgba(0, 0, 0, 0.8);
     }
 }
+
+.github-logo {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease-in-out;
+    opacity: 0.6;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.github-logo img {
+    height: 30px;
+}

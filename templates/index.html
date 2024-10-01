@@ -1,14 +1,34 @@
-<!DOCTYPE html>
 <html lang="en">
+
+</html>
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hide My Bits</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
-    <h1>Hide By Bits</h1>
-    <a href="/encode">Encode</a><br>
-    <a href="/decode">Decode</a>
+    <h1><strong>Hide My Bits</strong></h1>
+
+    <a href="/encode" style="text-decoration: none; color: white;">
+        <div class="form-group file-area">
+            <div class="file-dummy">
+                <div class="default">Encode</div>
+            </div>
+        </div>
+    </a>
+
+    <a href="/decode" style="text-decoration: none; color: white;">
+        <div class="form-group file-area">
+            <div class="file-dummy">
+                <div class="default">Decode</div>
+            </div>
+        </div>
+    </a>
+
+    <a href="https://github.com/sanish-alive/Hide-My-Bits" class="github-logo"><img src="{{ url_for('static', filename='github-mark-white.png') }}"></a>
+
 </body>
+
 </html>
