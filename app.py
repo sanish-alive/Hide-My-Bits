@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, send_file, url_for, redirect
-import io, os
+from flask import Flask, render_template, request, send_file, url_for, redirect, after_this_request
+import tempfile, os
 import steganography
 
 app = Flask(__name__)
@@ -32,14 +32,27 @@ def encode():
 
         encoded_image = steganography.encodeMessageToImage(image, message, password)
 
-        img_io = io.BytesIO()
+        # Create a temporary file
+        tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.png')
+        try:
+            encoded_image.save(tmp_file.name, format='PNG')
+            tmp_file_path = tmp_file.name
+        finally:
+            tmp_file.close()
 
-        encoded_image.save(img_io, format='PNG')
-        img_io.seek(0)      
+        @after_this_request
+        def cleanup(response):
+            try:
+                os.remove(tmp_file_path)
+            except Exception as e:
+                app.logger.error(f"Error deleting file: {e}")
+            return response
 
-        return send_file(img_io, as_attachment=True, download_name='encoded_'+image.filename)
+        return send_file(tmp_file_path, as_attachment=True, download_name='encoded_' + image.filename)
     else:
         return render_template('encode.html')
+
+
 
 @app.route('/decode', methods=['GET', 'POST'])
 def decode():
@@ -49,14 +62,25 @@ def decode():
 
         decoded_message = steganography.decodeImageToMessage(image, password)
 
-        text_file_io = io.BytesIO()
-        text_file_io.write(decoded_message.encode('utf-8'))
-        text_file_io.seek(0)
+        tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.txt', mode='w', encoding='utf-8')
+        try:
+            tmp_file.write(decoded_message)
+            tmp_file_path = tmp_file.name
+        finally:
+            tmp_file.close()
 
-        return send_file(text_file_io, as_attachment=True, download_name='decoded_text.txt', mimetype='text/plain')
-        return decoded_message
+        @after_this_request
+        def cleanup(response):
+            try:
+                os.remove(tmp_file_path)
+            except Exception as e:
+                app.logger.error(f"Error deleting file: {e}")
+            return response
+
+        return send_file(tmp_file_path, as_attachment=True, download_name='decoded_text.txt', mimetype='text/plain')
     else:
         return render_template('decode.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
