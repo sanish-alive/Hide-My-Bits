@@ -1,2 +1,3 @@
 /myenv
 *.png
+__pycache__/
