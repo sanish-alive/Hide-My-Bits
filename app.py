@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, url_for, redirect
 import io, os
 import steganography
 
@@ -16,6 +16,10 @@ def test():
 @app.route("/")
 def home():
     return render_template('index.html')
+
+@app.route('/hide-my-bits')
+def hideMyBits():
+    return redirect(url_for('home'))
 
 @app.route("/encode", methods=['GET', 'POST'])
 def encode():

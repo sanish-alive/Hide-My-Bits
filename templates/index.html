@@ -9,9 +9,9 @@
 </head>
 
 <body>
-    <h1><strong>Hide My Bits</strong></h1>
+    <h1><a href="{{url_for('hideMyBits')}}" style="text-decoration: none;color:#fff;">Hide My Bits</a></h1>
 
-    <a href="/encode" style="text-decoration: none; color: white;">
+    <a href="{{url_for('encode')}}" style="text-decoration: none; color: white;">
         <div class="form-group file-area">
             <div class="file-dummy">
                 <div class="default">Encode</div>
@@ -19,7 +19,7 @@
         </div>
     </a>
 
-    <a href="/decode" style="text-decoration: none; color: white;">
+    <a href="{{url_for('decode')}}" style="text-decoration: none; color: white;">
         <div class="form-group file-area">
             <div class="file-dummy">
                 <div class="default">Decode</div>

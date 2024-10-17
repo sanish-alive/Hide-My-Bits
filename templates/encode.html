@@ -7,9 +7,9 @@
 </head>
 
 <body>
-    <form action="" method="post" enctype="multipart/form-data">
+    <form action="{{url_for('encode')}}" method="post" enctype="multipart/form-data">
 
-        <h1><strong>Hide My Bits</strong> Encode</h1>
+        <h1><a href="{{url_for('hideMyBits')}}" style="text-decoration: none;color:#fff;">Hide My Bits</a> Encode</h1>
 
         <div class="form-group file-area">
             <label for="image">Images <span>Your images extension should be .png</span></label>
@@ -31,7 +31,7 @@
 
         <div class="form-group">
             <label for="password">Password <span>Long the better</span></label>
-            <input type="text" name="password" id="password" class="form-controll">
+            <input type="password" name="password" id="password" class="form-controll">
         </div>
 
         <!-- <div class="form-group file-area"></div>
@@ -50,7 +50,7 @@
     </form>
 
 
-    <a href="/decode" class="back-to-article">Decode</a>
+    <a href="{{url_for('decode')}}" class="back-to-article">Decode</a>
 
 </body>
 
