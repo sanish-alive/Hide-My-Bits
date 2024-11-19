@@ -9,7 +9,7 @@ Steganography using LSP, Huffman, XOR encryption.
 ## Installation
 
 ```bash
-git clone https://github.com/mostanglan/Hide-My-Bits.git
+git clone https://github.com/sanish-alive/Hide-My-Bits.git
 ```
 
 After Cloning the Project Go to the Project root directory

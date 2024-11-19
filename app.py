@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, send_file, url_for, redirect, after_this_request
 import tempfile, os
-import steganography
+from steganography import Steganography
 
 app = Flask(__name__)
 
@@ -30,7 +30,8 @@ def encode():
 
         message = text_file.read().decode('utf-8')
 
-        encoded_image = steganography.encodeMessageToImage(image, message, password)
+        sg = Steganography(password)
+        encoded_image = sg.encode_message_to_image(image, message)
 
         # Create a temporary file
         tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.png')
@@ -60,7 +61,8 @@ def decode():
         image = request.files['image']
         password = request.form['password']
 
-        decoded_message = steganography.decodeImageToMessage(image, password)
+        sg = Steganography(password)
+        decoded_message = sg.decode_image_to_message(image)
 
         tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.txt', mode='w', encoding='utf-8')
         try:
@@ -81,8 +83,6 @@ def decode():
     else:
         return render_template('decode.html')
 
-
+application = app
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
-
-application = app
