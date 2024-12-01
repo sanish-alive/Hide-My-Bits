@@ -58,15 +58,32 @@ class HuffmanCoding:
         return decoded_text
 
 
-class XOREncryption:
+class XOREncryption:    
     def __init__(self, key):
         self.key = key
-
+    
     def encrypt(self, message):
-        return ''.join(chr(ord(c) ^ ord(self.key[i % len(self.key)])) for i, c in enumerate(message))
+        encrypted_message = ""
+        key_length = len(self.key)
 
+        for i, char in enumerate(message):
+            key_char = self.key[i % key_length]
+            encrypted_char = chr(ord(char) ^ ord(key_char))
+            encrypted_message += encrypted_char
+        
+        return encrypted_message
+    
     def decrypt(self, encrypted_message):
-        return ''.join(chr(ord(c) ^ ord(self.key[i % len(self.key)])) for i, c in enumerate(encrypted_message))
+        decrypted_message = ""
+        key_length = len(self.key)
+
+        for i, char in enumerate(encrypted_message):
+            key_char = self.key[i % key_length]
+            decrypted_char = chr(ord(char) ^ ord(key_char))
+            decrypted_message += decrypted_char
+        
+        return decrypted_message
+
 
 
 class Steganography:
